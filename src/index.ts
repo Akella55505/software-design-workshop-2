@@ -1,4 +1,5 @@
 import * as dotenv from 'dotenv';
+import { config } from './config.js';
 
 dotenv.config();
 
@@ -16,8 +17,7 @@ export type NumberFormatOptions = {
 };
 
 export function formatNumber(value: number, options?: NumberFormatOptions): string {
-  const precision = options?.precision ?? Number(process.env.APP_PRECISION ?? 2);
-
+  const precision = options?.precision ?? config.APP_PRECISION;
   return value.toFixed(precision);
 }
 
@@ -36,4 +36,21 @@ export function groupBy<T>(arr: T[], key: keyof T): Record<string, T[]> {
     },
     {} as Record<string, T[]>,
   );
+}
+
+export type LogLevel = 'silent' | 'info' | 'debug';
+export class Logger {
+  constructor(private level: LogLevel) {}
+
+  info(msg: string): void {
+    if (this.level !== 'silent') {
+      console.log('[INFO]', msg);
+    }
+  }
+
+  debug(msg: string): void {
+    if (this.level === 'debug') {
+      console.log('[DEBUG]', msg);
+    }
+  }
 }
