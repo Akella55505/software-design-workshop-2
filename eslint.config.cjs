@@ -3,6 +3,14 @@ const tseslint = require('typescript-eslint');
 const prettier = require('eslint-config-prettier');
 
 module.exports = [
+  {
+    languageOptions: {
+      ecmaVersion: 2021,
+      globals: {
+        ...require('globals').node,
+      },
+    },
+  },
   { ignores: ['**/*.cjs'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
@@ -21,7 +29,7 @@ module.exports = [
     },
 
     rules: {
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-explicit-any': 'error',
       'no-unused-vars': 'warn',
     },
   },
